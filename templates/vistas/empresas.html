@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Empresas y Ofertas de Trabajo</title>
+  <link rel="stylesheet" href="/Proyecto/templates/recursos/estilos.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+</head>
+
+<body>
+  <nav id="navbar">
+    <ul class="navbar-items flexbox-col">
+      <li class="navbar-logo flexbox-left">
+        <a class="navbar-item-inner flexbox">
+          <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 1438.88 1819.54">
+            <polygon points="925.79 318.48 830.56 0 183.51 1384.12 510.41 1178.46 925.79 318.48" />
+            <polygon
+              points="1438.88 1663.28 1126.35 948.08 111.98 1586.26 0 1819.54 1020.91 1250.57 1123.78 1471.02 783.64 1663.28 1438.88 1663.28" />
+          </svg>
+        </a>
+      </li>
+      <li class="navbar-item flexbox-left">
+        <a class="navbar-item-inner flexbox-left" href="/">
+          <div class="navbar-item-inner-icon-wrapper flexbox">
+            <ion-icon name="home-outline"></ion-icon>
+          </div>
+          <span class="link-text">Inicio</span>
+        </a>
+      </li>
+      <li class="navbar-item flexbox-left">
+        <a class="navbar-item-inner flexbox-left" href="/candidatos">
+          <div class="navbar-item-inner-icon-wrapper flexbox">
+            <ion-icon name="folder-open-outline"></ion-icon>
+          </div>
+          <span class="link-text">Candidatos</span>
+        </a>
+      </li>
+      <li class="navbar-item flexbox-left">
+        <a class="navbar-item-inner flexbox-left" href="/empresas">
+          <div class="navbar-item-inner-icon-wrapper flexbox">
+            <ion-icon name="pie-chart-outline"></ion-icon>
+          </div>
+          <span class="link-text">Empresas</span>
+        </a>
+      </li>
+      <li class="navbar-item flexbox-left">
+        <a class="navbar-item-inner flexbox-left" href="/entrevistas">
+          <div class="navbar-item-inner-icon-wrapper flexbox">
+            <ion-icon name="people-outline"></ion-icon>
+          </div>
+          <span class="link-text">Entrevistas</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  
+    <h1>Lista de Empresas y sus Ofertas de Trabajo</h1>
+    <div class="container mt-5">
+        <table id="empresasTable" class="table table-striped table-bordered" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Industria</th>
+                    <th>Oferta</th>
+                    <th>Descripción</th>
+                    <th>Salario</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for empresa in empresas %}
+                    {% for oferta in empresa.ofertas %}
+                    <tr>
+                        <td>{{ empresa._id }}</td>
+                        <td>{{ empresa.nombre }}</td>
+                        <td>{{ empresa.industria }}</td>
+                        <td>{{ oferta.titulo }}</td>  
+                        <td>{{ oferta.descripcion }}</td>
+                        <td>{{ oferta.salario }}</td>
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container">
+    <button id="toggleFormsBtnEMPRE" type="button" class="btn btn-primary">
+      Agregar Empresa/Oferta
+    </button>
+    <button id="toggleFormsBtnActu" ype="button" class="btn btn-primary">
+      Editar Empresa/Oferta
+    </button>
+    <button id="toggleFormsBtnEli" type="button" class="btn btn-primary">
+      Eliminar Empresa/Oferta
+    </button>
+
+    <div class="form-container">
+      <form class="formularios" id="formAgregarEmpresa" action="/agregar_empresa" method="POST" style="display: none">
+        <h2>Agregar Nueva Empresa</h2>
+        <div class="mb-3">
+          <label for="id_empresa" class="form-label">ID de la Empresa</label>
+          <input type="text" class="form-control" id="id_empresa" name="id_empresa" required />
+        </div>
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="nombre" name="nombre" required />
+        </div>
+        <div class="mb-3">
+          <label for="industria" class="form-label">Industria</label>
+          <input type="text" class="form-control" id="industria" name="industria" required />
+        </div>
+        <div class="mb-3">
+          <label for="ubicacion" class="form-label">Ubicación</label>
+          <input type="text" class="form-control" id="ubicacion" name="ubicacion" required />
+        </div>
+        <div class="mb-3">
+          <label for="correo" class="form-label">Correo</label>
+          <input type="email" class="form-control" id="correo" name="correo" required />
+        </div>
+        <div class="mb-3">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <input type="text" class="form-control" id="telefono" name="telefono" required />
+        </div>
+        <div class="mb-3">
+          <label for="numero_empleados" class="form-label">Número de Empleados</label>
+          <input type="number" class="form-control" id="numero_empleados" name="numero_empleados" required />
+        </div>
+        <div class="mb-3">
+          <label for="facturacion_anual" class="form-label">Facturación Anual</label>
+          <input type="number" class="form-control" id="facturacion_anual" name="facturacion_anual" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar Empresa</button>
+      </form>
+  
+      <form class="formularios" id="formAgregarOferta" action="/agregar_oferta" method="POST" style="display: none">
+        <h2>Agregar Nueva Oferta de Trabajo</h2>
+        <div class="mb-3">
+          <label for="id_oferta" class="form-label">ID de la Oferta</label>
+          <input type="text" class="form-control" id="id_oferta" name="id_oferta" required />
+        </div>
+        <div class="mb-3">
+          <label for="titulo" class="form-label">Título</label>
+          <input type="text" class="form-control" id="titulo" name="titulo" required />
+        </div>
+        <div class="mb-3">
+          <label for="descripcion" class="form-label">Descripción</label>
+          <input type="text" class="form-control" id="descripcion" name="descripcion" required />
+        </div>
+        <div class="mb-3">
+          <label for="empresa" class="form-label">ID de la Empresa</label>
+          <input type="text" class="form-control" id="empresa" name="empresa" required />
+        </div>
+        <div class="mb-3">
+          <label for="salario" class="form-label">Salario</label>
+          <input type="number" class="form-control" id="salario" name="salario" required />
+        </div>
+        <div class="mb-3">
+          <label for="fecha_publicacion" class="form-label">Fecha de Publicación</label>
+          <input type="date" class="form-control" id="fecha_publicacion" name="fecha_publicacion" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar Oferta</button>
+      </form>
+  
+      <form class="formularios" id="formEliminarEmpresa" action="/eliminar_empresa" method="POST" style="display: none">
+        <h2>Eliminar Empresa por ID</h2>
+        <div class="mb-3">
+          <label for="id_empresa" class="form-label">ID de la Empresa</label>
+          <input type="text" class="form-control" id="id_empresa" name="id_empresa" required />
+        </div>
+        <button type="submit" class="btn btn-danger">Eliminar Empresa</button>
+      </form>
+  
+      <form class="formularios" id="formEliminarOferta" action="/eliminar_oferta" method="POST" style="display: none">
+        <h2>Eliminar Oferta de Trabajo por ID</h2>
+        <div class="mb-3">
+          <label for="id_oferta" class="form-label">ID de la Oferta de Trabajo</label>
+          <input type="text" class="form-control" id="id_oferta" name="id_oferta" required />
+        </div>
+        <button type="submit" class="btn btn-danger">
+          Eliminar Oferta de Trabajo
+        </button>
+      </form>
+  
+      <form class="formularios" id="formActualizarEmpresa" action="/actualizar_empresa" method="POST"
+        style="display: none">
+        <h2>Actualizar Empresa</h2>
+        <div class="mb-3">
+          <label for="id_empresa" class="form-label">ID de la Empresa</label>
+          <input type="text" class="form-control" id="id_empresa" name="id_empresa" required>
+        </div>
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="nombre" name="nombre" required>
+        </div>
+        <div class="mb-3">
+          <label for="industria" class="form-label">Industria</label>
+          <input type="text" class="form-control" id="industria" name="industria" required>
+        </div>
+        <div class="mb-3">
+          <label for="ubicacion" class="form-label">Ubicación</label>
+          <input type="text" class="form-control" id="ubicacion" name="ubicacion" required>
+        </div>
+        <div class="mb-3">
+          <label for="correo_contacto" class="form-label">Correo de Contacto</label>
+          <input type="email" class="form-control" id="correo_contacto" name="correo_contacto" required>
+        </div>
+        <div class="mb-3">
+          <label for="telefono_contacto" class="form-label">Teléfono de Contacto</label>
+          <input type="text" class="form-control" id="telefono_contacto" name="telefono_contacto" required>
+        </div>
+        <div class="mb-3">
+          <label for="numero_empleados" class="form-label">Número de Empleados</label>
+          <input type="number" class="form-control" id="numero_empleados" name="numero_empleados" required>
+        </div>
+        <div class="mb-3">
+          <label for="facturacion_anual" class="form-label">Facturación Anual</label>
+          <input type="number" class="form-control" id="facturacion_anual" name="facturacion_anual" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Actualizar Empresa</button>
+      </form>
+  
+      <form class="formularios" id="formActualizarOferta" action="/actualizar_oferta" method="POST" style="display: none">
+        <h2>Actualizar Oferta de Trabajo</h2>
+      <div class="mb-3">
+          <label for="id_oferta" class="form-label">ID de la Oferta</label>
+          <input type="text" class="form-control" id="id_oferta" name="id_oferta" required>
+      </div>
+      <div class="mb-3">
+          <label for="titulo" class="form-label">Título</label>
+          <input type="text" class="form-control" id="titulo" name="titulo" required>
+      </div>
+      <div class="mb-3">
+          <label for="descripcion" class="form-label">Descripción</label>
+          <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+      </div>
+      <div class="mb-3">
+          <label for="empresa" class="form-label">ID de la Empresa</label>
+          <input type="text" class="form-control" id="empresa" name="empresa" required>
+      </div>
+      <div class="mb-3">
+          <label for="salario" class="form-label">Salario</label>
+          <input type="number" class="form-control" id="salario" name="salario" required>
+      </div>
+      <div class="mb-3">
+          <label for="fecha_publicacion" class="form-label">Fecha de Publicación</label>
+          <input type="date" class="form-control" id="fecha_publicacion" name="fecha_publicacion" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Actualizar Oferta de Trabajo</button>
+      </form>
+    </div>
+
+    
+
+
+  </div>
+
+
+  <script src="/Proyecto/templates/recursos/scriptsEmpre.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<script src="https://unpkg.com/ionicons@5.5.2/dist/ionicons.js"></script>
+</html>

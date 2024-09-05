@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidatos Inscritos</title>
+    <link rel="stylesheet" href="/Proyecto/templates/recursos/estilos.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"
+        rel="stylesheet" />
+    <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+</head>
+
+<body>
+    <nav id="navbar">
+        <ul class="navbar-items flexbox-col">
+          <li class="navbar-logo flexbox-left">
+            <a class="navbar-item-inner flexbox">
+              <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 1438.88 1819.54">
+                <polygon points="925.79 318.48 830.56 0 183.51 1384.12 510.41 1178.46 925.79 318.48" />
+                <polygon
+                  points="1438.88 1663.28 1126.35 948.08 111.98 1586.26 0 1819.54 1020.91 1250.57 1123.78 1471.02 783.64 1663.28 1438.88 1663.28" />
+              </svg>
+            </a>
+          </li>
+          <li class="navbar-item flexbox-left">
+            <a class="navbar-item-inner flexbox-left" href="/">
+              <div class="navbar-item-inner-icon-wrapper flexbox">
+                <ion-icon name="home-outline"></ion-icon>
+              </div>
+              <span class="link-text">Inicio</span>
+            </a>
+          </li>
+          <li class="navbar-item flexbox-left">
+            <a class="navbar-item-inner flexbox-left" href="/candidatos">
+              <div class="navbar-item-inner-icon-wrapper flexbox">
+                <ion-icon name="folder-open-outline"></ion-icon>
+              </div>
+              <span class="link-text">Candidatos</span>
+            </a>
+          </li>
+          <li class="navbar-item flexbox-left">
+            <a class="navbar-item-inner flexbox-left" href="/empresas">
+              <div class="navbar-item-inner-icon-wrapper flexbox">
+                <ion-icon name="pie-chart-outline"></ion-icon>
+              </div>
+              <span class="link-text">Empresas</span>
+            </a>
+          </li>
+          <li class="navbar-item flexbox-left">
+            <a class="navbar-item-inner flexbox-left" href="/entrevistas">
+              <div class="navbar-item-inner-icon-wrapper flexbox">
+                <ion-icon name="people-outline"></ion-icon>
+              </div>
+              <span class="link-text">Entrevistas</span>
+            </a>
+          </li>
+        </ul>
+    </nav>
+    
+        <h1>Candidatos y sus Habilidades</h1>
+        <div class="container mt-5">
+            <table id="candidatosTable" class="table table-striped table-bordered" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Habilidades</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for candidato in candidatos %}
+                    <tr>
+                        <td>{{ candidato._id }}</td>
+                        <td>{{ candidato.nombre }} {{ candidato.apellido }}</td>
+                        <td>{{ candidato.correo }}</td>
+                        <td>
+                            <ul>
+                                {% for habilidad in candidato.habilidades %}
+                                <li>
+                                    {{ habilidad.nombre }} - {{ habilidad.nivel_experiencia }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="container">
+        <button id="toggleFormsBtn" type="button" class="btn btn-primary">Agregar Candidato/Habilidad</button>
+        <button id="toggleFormsBtnA" type="button" class="btn btn-primary">Editar Candidato/Habilidad</button>
+        <button id="toggleFormsBtnE" type="button" class="btn btn-primary">Eliminar Candidato/Habilidad</button>
+
+        <div class="form-container">
+            <form class="formularios" id="formAgregarCandidato" action="/agregar_candidato" method="POST" style="display: none;">
+                <h2>Agregar Nuevo Candidato</h2>
+                <div class="mb-3">
+                    <label for="id_candidato" class="form-label">ID del Candidato</label>
+                    <input type="text" class="form-control" id="id_candidato" name="id_candidato" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="apellido" name="apellido" required>
+                </div>
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo</label>
+                    <input type="email" class="form-control" id="correo" name="correo" required>
+                </div>
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="telefono" name="telefono" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nivel_estudio" class="form-label">Nivel de Estudio</label>
+                    <input type="text" class="form-control" id="nivel_estudio" name="nivel_estudio" required>
+                </div>
+    
+                <div id="experienciaLaboralContainer">
+                    
+                </div>
+                <button type="button" class="btn btn-secondary" id="addExperience">Agregar Experiencia Laboral</button>
+                <button type="submit" class="btn btn-primary">Agregar Candidato</button>
+            </form>
+    
+            <form class="formularios" id="formAgregarHabilidad" action="/agregar_habilidad" method="POST"
+                style="display: none;">
+                <h2>Agregar Nueva Habilidad</h2>
+                <div class="mb-3">
+                    <label for="id_habilidad" class="form-label">Id</label>
+                    <input type="text" class="form-control" id="id_habilidad" name="id_habilidad" required>
+                </div>
+                <div class="mb-3">
+                    <label for="habilidad_nombre" class="form-label">Nombre de la Habilidad</label>
+                    <input type="text" class="form-control" id="habilidad_nombre" name="habilidad_nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="habilidad_descripcion" class="form-label">Descripción de la Habilidad</label>
+                    <input type="text" class="form-control" id="habilidad_descripcion" name="habilidad_descripcion"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label for="nivel_experiencia" class="form-label">Nivel de Experiencia</label>
+                    <input type="text" class="form-control" id="nivel_experiencia" name="nivel_experiencia" required>
+                </div>
+                <div class="mb-3">
+                    <label for="id_candidato" class="form-label">ID del candidato</label>
+                    <input type="text" class="form-control" id="id_candidato" name="id_candidato" required>
+                </div>
+    
+                <button type="submit" class="btn btn-primary">Agregar Habilidad</button>
+            </form>
+    
+            <form class="formularios" id="formEliminarCandidato" action="/eliminar_candidato" method="POST"
+                style="display: none;">
+                <h2>Eliminar Candidato por ID</h2>
+                <div class="mb-3">
+                    <label for="id_candidatoE" class="form-label">ID del Candidato</label>
+                    <input type="text" class="form-control" id="id_candidatoE" name="id_candidatoE" required>
+                </div>
+                <button type="submit" class="btn btn-danger">Eliminar Candidato</button>
+            </form>
+    
+            <form class="formularios" id="formEliminarHabilidad" action="/eliminar_habilidad" method="POST"
+                style="display: none;">
+                <h2>Eliminar Habilidad por ID</h2>
+                <div class="mb-3">
+                    <label for="id_habilidadE" class="form-label">ID de la Habilidad</label>
+                    <input type="text" class="form-control" id="id_habilidadE" name="id_habilidadE" required>
+                </div>
+                <button type="submit" class="btn btn-danger">Eliminar Habilidad</button>
+            </form>
+    
+            <form class="formularios" id="formActualizarCandidato" action="/actualizar_candidato" method="POST"
+                style="display: none;">
+                <h2>Actualizar Candidato</h2>
+                <div class="mb-3">
+                    <label for="id_candidato" class="form-label">ID del Candidato</label>
+                    <input type="text" class="form-control" id="id_candidato" name="id_candidato" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="apellido" name="apellido" required>
+                </div>
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo</label>
+                    <input type="email" class="form-control" id="correo" name="correo" required>
+                </div>
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="telefono" name="telefono" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nivel_estudio" class="form-label">Nivel de Estudio</label>
+                    <input type="text" class="form-control" id="nivel_estudio" name="nivel_estudio" required>
+                </div>
+    
+                <div id="experienciaLaboralContainer">
+    
+                </div>
+                <button type="button" class="btn btn-secondary" id="addExperience">Agregar Experiencia Laboral</button>
+                <button type="submit" class="btn btn-primary">Actualizar Candidato</button>
+            </form>
+    
+            <form class="formularios" id="formActualizarHabilidad" action="/actualizar_habilidad" method="POST"
+                style="display: none;">
+                <h2>Actualizar Habilidad</h2>
+                <div class="mb-3">
+                    <label for="id_habilidad" class="form-label">ID de la Habilidad</label>
+                    <input type="text" class="form-control" id="id_habilidad" name="id_habilidad" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nivel_experiencia" class="form-label">Nivel de Experiencia</label>
+                    <input type="text" class="form-control" id="nivel_experiencia" name="nivel_experiencia" required>
+                </div>
+                <div class="mb-3">
+                    <label for="IDCandidato" class="form-label">ID del Candidato</label>
+                    <input type="text" class="form-control" id="IDCandidato" name="IDCandidato" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Actualizar Habilidad</button>
+            </form>
+        </div>
+    </div>
+    
+</body>
+<script src="/Proyecto/templates/recursos/scriptsCandi.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<script src="https://unpkg.com/ionicons@5.5.2/dist/ionicons.js"></script>
+
+</html>
